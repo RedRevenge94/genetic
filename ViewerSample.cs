@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using Microsoft.Msagl.GraphViewerGdi;
 using Graph_Coloring.Algorithms;
 using System.Collections.Generic;
+using System;
 
 class ViewerSample {
     public static void Main() {
@@ -52,9 +53,8 @@ class ViewerSample {
             ResultModel.SaveResults(results);
         } else {
             //graphModel = new GraphModel(14);
-            graphModel = new GraphModel("data/data.csv");
+            graphModel = new GraphModel("data/data_5.csv");
             ClassicAlgorithm testAlgorithm = new ClassicAlgorithm(graphModel, 150, 0.8f, 0.6f, 0.02f);
-            ;
         }
 
         #region Rysuj wykres
@@ -72,10 +72,5 @@ class ViewerSample {
         form.ShowDialog();
 
         #endregion
-
-
     }
-
-
-
 }

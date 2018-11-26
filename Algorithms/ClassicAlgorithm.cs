@@ -1,9 +1,8 @@
-﻿
-
-using Graph_Coloring.Graph;
+﻿using Graph_Coloring.Graph;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Graph_Coloring.Algorithms {
     public class ClassicAlgorithm : BaseAlgorithm {
@@ -88,9 +87,11 @@ namespace Graph_Coloring.Algorithms {
             populationCount = rnd.Next(minPopulation, maxPopulation);
 
             population = new List<bool[]>();
+
             populationRating = new int[populationCount];
 
             chromosomeSize = 3 * graphModel.vertexes.Count;
+            BestChromosome = new bool[chromosomeSize];
 
             for (int i = 0; i < populationCount; i++) {
 
@@ -151,39 +152,45 @@ namespace Graph_Coloring.Algorithms {
                 if (populationRating[i] > maxScore) {
                     maxScore = populationRating[i];
                     indexOfMaxScoreChromosome = i;
+                    Console.WriteLine($"Podbito lokalny maxScore = {maxScore} z indexem = {indexOfMaxScoreChromosome}");
+                    Console.WriteLine(string.Join(", ", population[indexOfMaxScoreChromosome].Select(b => b.ToString()).ToArray()));
                 }
 
             }
 
         }
 
-        private bool waitingForResult;
+        private bool[] bestChromosome;
+        private bool[] BestChromosome {
+            get {
+                return bestChromosome;
+            }
+            set {
+                bestChromosome = value;
+                Console.WriteLine("=========== ZMIANA NAJLEPSZEGO CHROMOSOMA");
+                Console.WriteLine(string.Join(", ", bestChromosome.Select(b => b.ToString()).ToArray()));
+            }
+        }
         private int maxGeneralScore;
         private int numberOfTheSameResults;
         private bool CheckEndOfAlgorithm() {
 
-            if (!waitingForResult) {
-                if (maxScore > maxGeneralScore) {
-                    maxGeneralScore = maxScore;
-                    numberOfTheSameResults = 0;
-                } else {
-                    numberOfTheSameResults++;
-                    if (numberOfTheSameResults > (400 * 150) / populationCount) {
-                        waitingForResult = true;
-                        numberOfTheSameResults = 0;
-                    }
-                }
-            } else {
-                if (maxScore == maxGeneralScore) {
-                    return true;
-                } /*else {
-                    numberOfTheSameResults++;
-                    if (numberOfTheSameResults > (400 * 15000) / populationCount) {
-                        return true;
-                    }
-            }*/
-            }
+            if (maxScore > maxGeneralScore) {
+                Console.WriteLine();
+                Console.WriteLine($"Globalny max score pobity = {maxScore} z indexem = {indexOfMaxScoreChromosome}");
+                Console.WriteLine();
+                maxGeneralScore = maxScore;
+                numberOfTheSameResults = 0;
+                Array.Copy(population[indexOfMaxScoreChromosome], BestChromosome, chromosomeSize);
+                //BestChromosome = population[indexOfMaxScoreChromosome];
+                Console.WriteLine(string.Join(", ", BestChromosome.Select(b => b.ToString()).ToArray()));
 
+            } else {
+                numberOfTheSameResults++;
+                if (numberOfTheSameResults > (400 * 150) / populationCount) {
+                    return true;
+                }
+            }
             return false;
         }
 
@@ -233,9 +240,9 @@ namespace Graph_Coloring.Algorithms {
         private int GetIndexForSelection(int value) {
 
             int sum = 0;
-            sum += populationRating[i];
-            for (int i = 0; i < populationCount; i++) {
 
+            for (int i = 0; i < populationCount; i++) {
+                sum += populationRating[i];
                 if (value < sum) {
                     return i;
                 }
@@ -330,9 +337,10 @@ namespace Graph_Coloring.Algorithms {
         public int MinResult { get; private set; }
         private void GetTheBestChromosome() {
 
-            bool[] theBestChromosome = population[indexOfMaxScoreChromosome];
-            ChangeGraphColor(theBestChromosome);
-            MaxResult = maxScore;
+            //bool[] theBestChromosome = bestChromosome;
+            //bool[] theBestChromosome = population[indexOfMaxScoreChromosome];
+            ChangeGraphColor(BestChromosome);
+            MaxResult = maxGeneralScore;
 
             AvgResult = 0;
             MinResult = 100;
@@ -345,7 +353,8 @@ namespace Graph_Coloring.Algorithms {
             }
             AvgResult = AvgResult / populationCount;
 
-            Console.WriteLine($"Zdobyto {maxScore} punktów.");
+            Console.WriteLine($"Zdobyto {MaxResult} punktów.");
+            Console.WriteLine(string.Join(", ", BestChromosome.Select(b => b.ToString()).ToArray()));
         }
 
         private void ChangeGraphColor(bool[] chromosome) {

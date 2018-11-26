@@ -36,7 +36,6 @@ namespace Graph_Coloring.Algorithms {
                         vertex.IsCorrect = false;
                         verNeighbor.IsCorrect = false;
                     }
-
                 }
             }
 

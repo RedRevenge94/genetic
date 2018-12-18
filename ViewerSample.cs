@@ -59,8 +59,8 @@ class ViewerSample {
 
             ResultModel.SaveResults(results);
         } else {
-            //graphModel = new GraphModel(14);
-            graphModel = new GraphModel("data/data.csv");
+            //graphModel = new GraphModel(35);
+            graphModel = new GraphModel("data/data_35ver.csv");
             ClassicAlgorithm testAlgorithm = new ClassicAlgorithm(graphModel, 5000, 0.8f, 0.6f, 0.02f);
         }
 

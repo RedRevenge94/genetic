@@ -108,20 +108,26 @@ namespace Graph_Coloring.Graph {
 
             Random rd = new Random();
 
-            int rowNumber = rd.Next(40, 60);
-            result.Add($"{rowNumber}");
+            int rowNumberGlobal = 0;
+            result.Add($"0");
 
-            for (int i = 0; i < rowNumber; i++) {
+            for (int i = 0; i < vertexCount; i++) {
 
-                int source = rd.Next(1, vertexCount);
-                int target = rd.Next(1, vertexCount);
+                int rowNumber = rd.Next(1, 4);
 
-                while (target == source) {
-                    target = rd.Next(1, 15);
+                for (int j = 0; j < rowNumber; j++) {
+                    int source = i;
+                    int target = rd.Next(1, vertexCount);
+
+                    while (target == source) {
+                        target = rd.Next(1, vertexCount);
+                    }
+                    result.Add($"{i};{source};{target}");
+                    rowNumberGlobal++;
                 }
 
-                result.Add($"{i};{source};{target}");
             }
+            result[0] = $"{rowNumberGlobal}";
 
             foreach (string line in result) {
                 Console.WriteLine(line);

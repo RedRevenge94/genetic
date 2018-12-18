@@ -79,6 +79,12 @@
     <None Include="data\data.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="data\data_20ver.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="data\data_35ver.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="data\data_5.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

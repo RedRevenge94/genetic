@@ -19,7 +19,7 @@ namespace Genetic8QueensSolutionWithGeneticSharp {
         static void Main(string[] args) {
             //
 
-            GraphModel graphModel = new GraphModel("data/data_5.csv");
+            GraphModel graphModel = new GraphModel("data/data_35ver.csv");
 
 
             int vezirSayisi = graphModel.vertexes.Count;
@@ -82,7 +82,7 @@ namespace Genetic8QueensSolutionWithGeneticSharp {
                 List<Vertex> neiVertexes = graphModel.GetNeighborVertex(graphModel.vertexes[i]);
 
                 foreach (Vertex vertex in neiVertexes) {
-                    if ((int)genes[i].Value == (int)genes[Int32.Parse(vertex.Name) - 1].Value) {
+                    if ((int)genes[i].Value == (int)genes[Int32.Parse(vertex.Name)].Value) {
                         //Powtorzenie koloru
                         result -= 5;
                     }

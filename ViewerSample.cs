@@ -8,53 +8,60 @@ using System;
 class ViewerSample {
     public static void Main() {
 
-        bool isDataRegisterMode = false;
+        bool isDataRegisterMode = true;
+        int numberOfRepeats = 5;
 
         GraphModel graphModel = new GraphModel(1);
         List<ResultModel> results = new List<ResultModel>();
 
         if (isDataRegisterMode) {
 
-            int[] populations = new int[] { 150, 300, 600 };
+            int[] populations = new int[] { 100, 1000 };
             float[] pc = new float[] { 0.5f };
             float[] pm = new float[] { 0.05f };
-            float[] selectionThresholds = new float[] { 0.7f };
+            float[] selectionThresholds = new float[] { 0.5f };
 
-            for (int i = 0; i < populations.Length; i++) {
+            int id = 0;
 
-                for (int j = 0; j < selectionThresholds.Length; j++) {
+            for (int h = 0; h < numberOfRepeats; h++) {
+                for (int i = 0; i < populations.Length; i++) {
 
-                    for (int k = 0; k < pc.Length; k++) {
+                    for (int j = 0; j < selectionThresholds.Length; j++) {
 
-                        for (int l = 0; l < pm.Length; l++) {
-                            graphModel = new GraphModel("data/data.csv");
+                        for (int k = 0; k < pc.Length; k++) {
 
-                            ClassicAlgorithm testAlgorithm = new ClassicAlgorithm(graphModel, populations[i], selectionThresholds[j], pc[k], pm[l]);
+                            for (int l = 0; l < pm.Length; l++) {
+                                graphModel = new GraphModel("data/data_5.csv");
 
-                            results.Add(new ResultModel {
-                                Id = i + 1,
-                                Population = populations[i],
-                                Generatoins = testAlgorithm.Generation,
-                                MaxResult = testAlgorithm.MaxResult,
-                                AvgResult = testAlgorithm.AvgResult,
-                                MinResult = testAlgorithm.MinResult,
-                                Colors = testAlgorithm.Colors,
-                                Errors = testAlgorithm.Errors,
-                                ExecutionTime = testAlgorithm.executionTime,
-                                SelectionThreshold = testAlgorithm.selectionThreshold,
-                                PC = testAlgorithm.pc,
-                                PM = testAlgorithm.pm
-                            });
+                                ClassicAlgorithm testAlgorithm = new ClassicAlgorithm(graphModel, populations[i], selectionThresholds[j], pc[k], pm[l]);
+
+                                results.Add(new ResultModel {
+                                    Id = ++id,
+                                    Population = populations[i],
+                                    Generatoins = testAlgorithm.Generation,
+                                    MaxResult = testAlgorithm.MaxResult,
+                                    AvgResult = testAlgorithm.AvgResult,
+                                    MinResult = testAlgorithm.MinResult,
+                                    Colors = testAlgorithm.Colors,
+                                    Errors = testAlgorithm.Errors,
+                                    ExecutionTime = testAlgorithm.executionTime,
+                                    SelectionThreshold = testAlgorithm.selectionThreshold,
+                                    PC = testAlgorithm.pc,
+                                    PM = testAlgorithm.pm
+                                });
+                            }
                         }
                     }
                 }
             }
 
+
+
             ResultModel.SaveResults(results);
         } else {
             //graphModel = new GraphModel(14);
-            graphModel = new GraphModel("data/data_5.csv");
-            ClassicAlgorithm testAlgorithm = new ClassicAlgorithm(graphModel, 150, 0.8f, 0.6f, 0.02f);
+            graphModel = new GraphModel("data/data.csv");
+            ClassicAlgorithm testAlgorithm = new ClassicAlgorithm(graphModel, 5000, 0.8f, 0.6f, 0.02f);
         }
 
         #region Rysuj wykres

@@ -8,7 +8,7 @@ using System;
 class ViewerSample {
     public static void Main() {
 
-        bool isDataRegisterMode = true;
+        bool isDataRegisterMode = false;
         int numberOfRepeats = 5;
 
         GraphModel graphModel = new GraphModel(1);
@@ -31,7 +31,7 @@ class ViewerSample {
                         for (int k = 0; k < pc.Length; k++) {
 
                             for (int l = 0; l < pm.Length; l++) {
-                                graphModel = new GraphModel("data/data_5.csv");
+                                graphModel = new GraphModel("data/data.csv");
 
                                 ClassicAlgorithm testAlgorithm = new ClassicAlgorithm(graphModel, populations[i], selectionThresholds[j], pc[k], pm[l]);
 
